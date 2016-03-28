@@ -8,8 +8,11 @@
   },
   "scripts": {
     "test": "",
+    "prepublish": "npm run build && npm run generate_bin_cli",
+    "postinstall": "npm run generate_bin_cli",
     "build": "node_modules/.bin/babel --out-dir lib/ src/",
-    "build-watch": "node_modules/.bin/babel -w --out-dir lib/ src/"
+    "build-watch": "node_modules/.bin/babel -w --out-dir lib/ src/",
+    "generate_bin_cli": "node script/generate_bin_cli.js"
   },
   "author": "Jon Dotsoy <hi@jon.soy> (http://jon.soy/)",
   "license": "ISC",
@@ -25,7 +28,8 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
-    "babel-preset-stage-3": "^6.5.0"
+    "babel-preset-stage-3": "^6.5.0",
+    "dos2unix": "^1.1.2"
   },
   "babel": {
     "presets": [
