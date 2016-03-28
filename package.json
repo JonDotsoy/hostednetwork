@@ -1,7 +1,7 @@
 {
   "name": "hostednetwork",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.1",
+  "description": "A command to start a hotspot in windows.",
   "main": "lib/hostednetwork.js",
   "bin": {
     "hostednetwork": "bin/cli.js"
