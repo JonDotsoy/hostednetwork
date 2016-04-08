@@ -21,8 +21,10 @@ export let setting = function({ ssid = "net", key = "12345678", mode = "allow", 
 	mode = correct_property(mode)
 	keyUsage = correct_property(keyUsage)
 
+	let com = `netsh wlan set hostednetwork ssid=${ssid} key=${key} mode=${mode} keyUsage=${keyUsage}`
+
 	return new Promise(function(resolve, reject) {
-		Exec(`netsh wlan set hostednetwork ssid=${ssid} key='${key}' mode=${mode} keyUsage=${keyUsage}`, {
+		Exec(com, {
 			encoding: "utf8",
 		}, function (error, stdout, stderr) {
 			if (error) {
