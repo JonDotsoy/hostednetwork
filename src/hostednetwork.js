@@ -1,9 +1,30 @@
 import _ from "lodash";
 import { exec as Exec } from "child_process";
 
-export let setting = function({ ssid = "hostednetwork", key = "12345.6", mode = "allow", keyUsage = "persistent" } = {}) {
+let correct_property = function (str) {
+	str = String(str)
+
+	if (str.search(/\"/gi) !== -1) {
+		str = str.replace(/\"/ig, '\\\"')
+	}
+
+	if (str.search(/([^a-z0-9])/ig) !== -1) {
+		str = `"${str}"`
+	}
+
+	return str
+}
+
+export let setting = function({ ssid = "net", key = "12345678", mode = "allow", keyUsage = "persistent" } = {}) {
+	ssid = correct_property(ssid)
+	key = correct_property(key)
+	mode = correct_property(mode)
+	keyUsage = correct_property(keyUsage)
+
+	let com = `netsh wlan set hostednetwork ssid=${ssid} key=${key} mode=${mode} keyUsage=${keyUsage}`
+
 	return new Promise(function(resolve, reject) {
-		Exec(`netsh wlan set hostednetwork key="${key}" ssid="${ssid}" mode="${mode}" keyUsage="${keyUsage}"`, {
+		Exec(com, {
 			encoding: "utf8",
 		}, function (error, stdout, stderr) {
 			if (error) {
@@ -54,25 +75,7 @@ export let info = function({} = {}) {
 				if (stderr) {
 					reject(stderr);
 				} else {
-					let out = {};
-					let lastLineConfig = null;
-					_.map(_.split(stdout, "\n"), function (line) {
-						line = line.trim();
-						if (_.size(line) > 0 && line.match(/^\-+$/) == null) {
-							let matchTitle = line.match(/^(.+)\:(.+)/);
-							if (matchTitle == null) {
-								out[line.trim()] = {};
-								lastLineConfig = line.trim();
-							} else {
-								if (lastLineConfig != null) {
-									let {1:lineTitle, 2:lineValue} = matchTitle;
-									out[lastLineConfig][lineTitle.trim()] = lineValue.trim();
-								}
-							}
-						}
-					});
-
-					resolve(out);
+					resolve(stdout);
 				}
 			}
 		});

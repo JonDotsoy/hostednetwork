@@ -83,18 +83,7 @@ export let cli = function(argv) {
 		case "info":
 			infoHostednetwork(configsToHostednetwork)
 				.then(function(info) {
-					Verbose && console.log(JSONtoString(info));
-					if (!Verbose) {
-						let outLog = "";
-						_.map(info, function (microInfo, titleInfo) {
-							outLog += `${titleInfo}\n${"-".repeat(_.size(titleInfo))}\n`;
-
-							_.map(microInfo, function (value, nameValue) {
-								outLog += `\t${nameValue}${" ".repeat(30 - _.size(nameValue))}: ${value}\n`;
-							});
-						});
-						console.log(outLog);
-					}
+					console.log(info);
 				});
 			break;
 		case "version":
