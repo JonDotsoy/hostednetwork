@@ -90,7 +90,7 @@ export let cli = function(argv) {
 			if (Verbose) {
 				console.log(Version());
 			} else {
-				console.log(`hostednetwork v${Version()}`);
+				console.log(`hostednetwork v${Version()}${(pkg.gitHead) ? ` (${pkg.gitHead})`: ''}`);
 			}
 			break;
 		case "help":
